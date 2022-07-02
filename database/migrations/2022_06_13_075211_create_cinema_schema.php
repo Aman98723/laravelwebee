@@ -62,7 +62,7 @@ class CreateCinemaSchema extends Migration
             $table->integer('show_id')->unsigned();
             $table->foreign('show_id')->references('id')->on('shows')->onDelete('cascade');
             $table->string('status')->nullable(); // booked/inprocess/declined/cancel
-            $table->integer("booked_by")->unsigned(); // user id to get user detail
+            $table->integer('booked_by')->unsigned(); // user id to get user detail
             $table->foreign('booked_by')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

@@ -9,10 +9,13 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Date;
 
+use App\Models\Workshop;
+use Carbon\Carbon;
+
 class EventsController extends BaseController
 {
     public function getWarmupEvents() {
-        return Event::with("workshops")->all();
+        return Event::with("workshops")->get();
     }
 
     /*
@@ -180,6 +183,12 @@ class EventsController extends BaseController
      */
 
     public function getFutureEventsWithWorkshops() {
-        throw new \Exception('implement in coding task 2');
+        $events = Workshop::whereRaw("start > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')" , Carbon::now()->format('Y-m-d H:i'))->pluck("event_id");
+
+        if($events->isNotEmpty()){
+            return Event::whereIn("id", $events)->get();
+        }else{
+            return "No event found";
+        }
     }
 }

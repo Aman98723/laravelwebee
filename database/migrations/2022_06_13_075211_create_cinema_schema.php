@@ -38,6 +38,34 @@ class CreateCinemaSchema extends Migration
     public function up()
     {
         /*throw new \Exception('implement in coding task 4, you can ignore this exception if you are just running the initial migrations.');*/
+
+        Schema::create('shows', function($table) {
+            $table->increments('id');
+            $table->integer('movie_name');
+            $table->dateTime('show_time');
+            $table->string('location');
+            $table->string('ticket_price');
+            $table->string('status')->nullable();//booked/not
+        });
+
+        Schema::create('seats', function($table) {
+            $table->increments('id');
+            $table->integer('normal_seats'); // normal seat counts
+            $table->integer('vip_seats'); // vip seat counts
+            $table->string('show_id');
+            $table->timestamps();
+        });
+
+        Schema::create('booked_seats', function($table) {
+            $table->increments('id');
+            $table->integer('seat_number'); // to get location
+            $table->integer('show_id')->unsigned();
+            $table->foreign('show_id')->references('id')->on('shows')->onDelete('cascade');
+            $table->string('status')->nullable(); // booked/inprocess/declined/cancel
+            $table->integer("booked_by")->unsigned(); // user id to get user detail
+            $table->foreign('booked_by')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamps();
+        });
     }
 
     /**

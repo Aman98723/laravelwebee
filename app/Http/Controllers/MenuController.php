@@ -94,6 +94,6 @@ class MenuController extends BaseController
      */
 
     public function getMenuItems() {
-        throw new \Exception('implement in coding task 3');
+        return \DB::select("SELECT P.id,P.parent_id FROM menu_items P JOIN ( SELECT PC3.id FROM menu_items AS PC3 LEFT JOIN menu_items AS PC2 ON PC3.parent_id = PC2.id LEFT JOIN menu_items AS PC1 ON PC2.parent_id= PC1.id ) CT ON CT.id = P.id");
     }
 }

@@ -183,12 +183,8 @@ class EventsController extends BaseController
      */
 
     public function getFutureEventsWithWorkshops() {
-        $events = Workshop::whereRaw("start > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')" , Carbon::now()->format('Y-m-d H:i'))->pluck("event_id");
-
-        if($events->isNotEmpty()){
-            return Event::whereIn("id", $events)->get();
-        }else{
-            return "No event found";
-        }
+        return Event::with("workshops")->whereHas("workshops", function($q){
+                $q->whereRaw("start > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')", Carbon::now()->format('Y-m-d H:i'));
+            })->get();
     }
 }

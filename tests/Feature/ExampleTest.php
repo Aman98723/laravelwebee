@@ -37,7 +37,7 @@ class ExampleTest extends TestCase
             ->assertJsonPath('2.workshops.1.name', 'Navigating the function jungle');
     }
 
-    /*public function testFutureEvents() {
+    public function testFutureEvents() {
         $dateFuture = (new Carbon())->addYears(1);
 
         $response = $this->get('/futureevents');
@@ -51,7 +51,7 @@ class ExampleTest extends TestCase
             ->assertJsonPath('1.workshops.1.name', 'Navigating the function jungle');
     }
 
-    public function testMenu() {
+    /*public function testMenu() {
         $response = $this->get('/menu');
         $response->assertStatus(200)
             ->assertJsonCount(1)
